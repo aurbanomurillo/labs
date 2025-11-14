@@ -165,7 +165,7 @@ class Labyrinth:
         print("________________________")
         
 
-    def __get_lab_weights__(self) -> list[list[int]]:
+    def __get_lab_weights__(self) -> list[list[int]]: # Devuelve una lista de dos dimensiones con los pesos de cada casilla
 
         weights = [[]]
 
@@ -201,7 +201,7 @@ class Labyrinth:
         print("________________________")
     
 
-    def __get_gpt_bricks__(self) -> list[tuple[int, int]]:
+    def __get_gpt_bricks__(self) -> list[tuple[int, int]]: # Devuelve la lista de coordenadas de los muros propuestos por gpt
 
         rows = self.rows + 1
         cols = self.columns + 1
@@ -385,7 +385,7 @@ class Labyrinth:
             self.__actualizar_bricks__()
 
 
-    def __actualizar_bricks__(self):
+    def __actualizar_bricks__(self): # Actualiza todas las casillas de muros 
 
         total_muros = len(self.bricks)
         progreso_actual = 0
@@ -409,12 +409,14 @@ class Labyrinth:
 
             progress.stop()
 
+
     def delete_bricks(self): # Elimina todos los muros
 
         self.bricks.clear()
         self.__actualizar_todos__()
 
-    def __actualizar__(self, coord_y:int, coord_x:int):
+
+    def __actualizar__(self, coord_y:int, coord_x:int): # Actualiza todas las casillas
 
         if not self.player == "Not defined":
 
@@ -438,6 +440,7 @@ class Labyrinth:
 
             self.grid[coord_y][coord_x].set_estado_a("brick")
             self.grid[coord_y][coord_x].symbol = self.grid[coord_y][coord_x].symbols["brick"]
+
 
     def __actualizar_todos__(self):  # Actualiza todas las casillas según su estado
 
@@ -465,6 +468,12 @@ class Labyrinth:
 
             progress.stop()
         
+
+    def get_optimal_path(self) -> list[tuple[int,int]]: # Devuelve la lista de casillas por las que se debe pasar para llegar a la meta si se puede, y si no devuelve las casillas a las que se puede ir
+        
+        self.possible_paths = [[]]
+        
+
 
 
     
@@ -499,9 +508,6 @@ class Casilla:
 
             print(f"El estado {new_estado} no existe.")
 
-    def get_optimal_path(self) -> list[tuple[int,int]]:
-        pass
-
 
 
 class Jugador:
@@ -519,6 +525,7 @@ class Meta:
     def __init__(self, position_y = 0, position_x = 0): # Constructor de la clase Meta
 
         self.position = (position_y, position_x)
+
 
 
 if __name__ == "__main__":
