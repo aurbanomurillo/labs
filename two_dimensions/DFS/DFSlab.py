@@ -472,6 +472,7 @@ class Labyrinth:
     def get_optimal_path(self) -> list[tuple[int,int]]: # Devuelve la lista de casillas por las que se debe pasar para llegar a la meta si se puede, y si no devuelve las casillas a las que se puede ir
         
         self.possible_paths = [[]]
+        self.directons = [(1, 0), (-1,0), (0, 1), (0,-1)]
         
 
 
