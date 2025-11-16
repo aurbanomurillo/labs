@@ -23,7 +23,9 @@ class Labyrinth:
         self.player = "Not defined"
         self.goal = "Not defined"
         self.bricks = []
-    
+
+        self.resuelto = False
+
 
     def set_player(self,position_y:int, position_x:int): # Agrega una instancia del objeto Jugador al laberinto siguiendo unos parámetros definidos
 
@@ -409,10 +411,12 @@ class Labyrinth:
 
             progress.stop()
 
+
     def delete_bricks(self): # Elimina todos los muros
 
         self.bricks.clear()
         self.__actualizar_todos__()
+
 
     def __actualizar__(self, coord_y:int, coord_x:int):
 
@@ -438,6 +442,7 @@ class Labyrinth:
 
             self.grid[coord_y][coord_x].set_estado_a("brick")
             self.grid[coord_y][coord_x].symbol = self.grid[coord_y][coord_x].symbols["brick"]
+
 
     def __actualizar_todos__(self):  # Actualiza todas las casillas según su estado
 
@@ -465,7 +470,6 @@ class Labyrinth:
 
             progress.stop()
         
-
 
     def __get_sorrounding_weights__(self, coord_y:int, coord_x:int) -> list[int]: # Devuelve una lista de enteros correspondientes a los pesos de las casillas contiguas a una en coordenadas definidas 
 
@@ -531,6 +535,8 @@ class Labyrinth:
             progress.stop()
 
             print(f"Se han otorgado los pesos a {count} casillas del total {total}.")
+            
+        self.resuelto = not self.grid[self.goal.position[0]][self.goal.position[1]].peso == -1
 
             
     def set_paths(self): # Define las casillas conforman el trayecto más corto entre la posición del jugador y la posición de meta
@@ -556,7 +562,7 @@ class Labyrinth:
                             (n == 2 and next_path[1] == self.columns -1) or 
                             (n == 3 and next_path[1] == 0))) and 
                             (self.grid[next_path[0] + direcciones[n][0]][next_path[1] + direcciones[n][1]].peso
-                             == self.grid[next_path[0]][next_path[1]].peso - 1)):
+                            == self.grid[next_path[0]][next_path[1]].peso - 1)):
                             
                             next_path = [next_path[0] + direcciones[n][0],next_path[1] + direcciones[n][1]]
                             self.grid[next_path[0]][next_path[1]].set_estado_a("path")
@@ -627,17 +633,14 @@ class Meta:
 
         self.position = (position_y, position_x)
 
-if __name__ == "__main__":
-    
-    for _ in range(5):
 
-        # lab = Labyrinth(int(input("Inserte el número de filas que desee: ")),int(input("Inserte el número de columnas que desee: ")),True) # Crea un laberinto
-        lab = Labyrinth(20,60,True) # Crea un laberinto
 
-        lab.set_gpt_bricks() # Coloca 50 muros en el laberinto
-        lab.set_random_player() # Define una posición para la casilla de inicio del jugador
-        lab.set_random_goal() # Define una posición para la casilla de meta
+# lab = Labyrinth(int(input("Inserte el número de filas que desee: ")),int(input("Inserte el número de columnas que desee: ")),True) # Crea un laberinto
+lab = Labyrinth(100,300,True) # Crea un laberinto
 
-        lab.set_all_weights() # Otorga valores de peso a todas las casillas
-        lab.set_paths() # Define el camino óptimo a partir de los valores de peso
-        lab.print_lab() # Suelta el laberinto por pantalla
+lab.set_gpt_bricks() # Coloca 50 muros en el laberinto
+lab.set_random_player() # Define una posición para la casilla de inicio del jugador
+lab.set_random_goal() # Define una posición para la casilla de meta
+lab.set_all_weights() # Otorga valores de peso a todas las casillas
+lab.set_paths() # Define el camino óptimo a partir de los valores de peso
+lab.print_lab() # Suelta el laberinto por pantalla
