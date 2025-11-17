@@ -20,12 +20,12 @@ class Labyrinth:
 
                 self.grid[n].append(Casilla(n, m))
         
-        self.start = "Not defined"
-        self.goal = "Not defined"
+        self.start = None
+        self.goal = None
         self.bricks = []
         self.path = []
         self.explored = []
-        self.player = "Not defined"
+        self.player = None
         self.decision_positions = []
     
 
@@ -35,7 +35,7 @@ class Labyrinth:
 
             print(f"La posición ({position_y},{position_x}) está ocupada por un muro. Selecciona otra posición para la casilla de inicio.")
 
-        elif not self.goal == "Not defined":
+        elif not self.goal == None:
 
             if self.goal.position == (position_y, position_x):
 
@@ -61,7 +61,7 @@ class Labyrinth:
 
             print(f"La posición ({position_y},{position_x}) está ocupada por un muro. Selecciona otra posición para la casilla de inicio.")
             
-        elif not self.goal == "Not defined":
+        elif not self.goal == None:
 
             if self.goal.position == (position_y, position_x):
 
@@ -79,9 +79,9 @@ class Labyrinth:
 
     def set_random_start(self): # Agrega una instancia del objeto Start al laberinto en una posición aleatoria
 
-        if not self.goal == "Not defined":
+        if not self.goal == None:
 
-            position_y:float = random.choice(range(self.rows))
+            position_y = random.choice(range(self.rows))
             position_x = random.choice(range(self.columns))
 
             while (position_y, position_x) in self.bricks or (position_y, position_x) == self.goal.position:
@@ -113,7 +113,7 @@ class Labyrinth:
 
             print(f"La posición ({position_y},{position_x}) está ocupada por un muro. Selecciona otra posición para la casilla de meta.")
 
-        elif not self.goal == "Not defined":
+        elif not self.goal == None:
 
             if self.goal.position == (position_y,position_x):
 
@@ -133,7 +133,7 @@ class Labyrinth:
 
             print(f"La posición ({position_y},{position_x}) está ocupada por un muro. Selecciona otra posición para la casilla de meta.")
 
-        elif not self.goal == "Not defined":
+        elif not self.goal == None:
 
             if self.goal.position == (position_y,position_x):
 
@@ -146,7 +146,7 @@ class Labyrinth:
 
     def set_random_goal(self): # Agrega una instancia del objeto Meta al laberinto en una posición aleatoria
 
-        if not self.start == "Not defined":
+        if not self.start == None:
 
             position_y = random.choice(range(self.rows))
             position_x = random.choice(range(self.columns))
@@ -284,7 +284,7 @@ class Labyrinth:
 
         bricks = []
 
-        if not self.start == "Not defined" and not self.goal == "Not defined":
+        if not self.start == None and not self.goal == None:
 
             for _ in range(amount_of_bricks):
 
@@ -298,7 +298,7 @@ class Labyrinth:
 
                 bricks.append((position_y, position_x))
 
-        elif not self.start == "Not defined":
+        elif not self.start == None:
 
             for _ in range(amount_of_bricks):
 
@@ -312,7 +312,7 @@ class Labyrinth:
 
                 bricks.append((position_y, position_x))
         
-        elif not self.goal == "Not defined":
+        elif not self.goal == None:
 
             for _ in range(amount_of_bricks):
 
@@ -353,7 +353,7 @@ class Labyrinth:
 
         bricks = []
 
-        if not self.start == "Not defined" and not self.goal == "Not defined":
+        if not self.start == None and not self.goal == None:
 
             bricks = self.__get_gpt_bricks__()
             
@@ -361,7 +361,7 @@ class Labyrinth:
 
                 bricks = self.__get_gpt_bricks__()
 
-        elif not self.start == "Not defined":
+        elif not self.start == None:
 
             bricks = self.__get_gpt_bricks__()
             
@@ -369,7 +369,7 @@ class Labyrinth:
 
                 bricks = self.__get_gpt_bricks__()
 
-        elif not self.goal == "Not defined":
+        elif not self.goal == None:
 
             bricks = self.__get_gpt_bricks__()
             
@@ -387,15 +387,19 @@ class Labyrinth:
 
     def set_corner_bricks(self): # Incorpora únicamente dos muros que cierran la esquina inferior izquierda
         
-        bricks = [(3, 0), (4, 1)]
+        bricks = [(len(self.grid)-2, 0), (len(self.grid)-1, 1)]
 
-        if self.start.position in bricks :
+        if not self.start == None and self.start.position in bricks:
 
-            print(f"Uno de los muros se encuentra en la casilla de inicio. Selecciona otros muros.")
+            print("Uno de los muros se encuentra en la casilla de inicio. ...")
 
-        elif self.goal.position in bricks:
+            return
 
-            print(f"Uno de los muros se encuentra en la casilla de meta. Selecciona otros muros.")
+        if not self.goal == None and self.goal.position in bricks:
+
+            print("Uno de los muros se encuentra en la casilla de meta. ...")
+
+            return
 
         else:
 
@@ -436,14 +440,14 @@ class Labyrinth:
 
     def __actualizar__(self, coord_y:int, coord_x:int): # Actualiza todas las casillas
 
-        if not self.start == "Not defined":
+        if not self.start == None:
 
             if (coord_y, coord_x) == self.start.position:
 
                 self.grid[coord_y][coord_x].set_estado_a("start")
                 self.grid[coord_y][coord_x].symbol = self.grid[coord_y][coord_x].symbols["start"]
         
-        if not self.goal == "Not defined":
+        if not self.goal == None:
 
             if (coord_y, coord_x) == self.goal.position:
 
@@ -491,19 +495,19 @@ class Labyrinth:
 
         directions = [(1, 0), (-1, 0), (0, 1), (0, -1)]
         possible = []
-        self.player.position
 
         for direction in directions:
             coord_y = self.player.position[0] + direction[0]
             coord_x = self.player.position[1] + direction[1]
 
             # límites correctos
-            if not (0 <= coord_y < self.rows and 0 <= coord_x < self.columns):
-                continue
+            if (0 <= coord_y < self.rows and 0 <= coord_x < self.columns):
 
-            if (not self.grid[coord_y][coord_x].peso == -1 and (coord_y, coord_x) not in self.bricks and not self.grid[coord_y][coord_x].explored):
+                if self.grid[coord_y][coord_x].peso == -1:
+                    if not (coord_y, coord_x) in self.bricks:
+                        if not self.grid[coord_y][coord_x].estado == "explored":
 
-                possible.append((coord_y, coord_x))
+                            possible.append((coord_y, coord_x))
 
         return possible
 
@@ -514,6 +518,11 @@ class Labyrinth:
 
         if len(possible) > 0:
             
+            if len(possible) > 1:
+
+                current_pos = (self.player.position) if isinstance(self.player.position, (list)) else (self.player.position[0], self.player.position[1])
+                self.decision_positions.append(current_pos)
+
             new_coords = possible[0]
             self.player.position = new_coords
 
@@ -525,10 +534,6 @@ class Labyrinth:
             self.explored.append((new_coords[0],new_coords[1]))
             self.__actualizar__(new_coords[0],new_coords[1])
 
-            if len(possible) > 1:
-                
-                self.decision_positions.append(new_coords)
-
             return False
         
         else:
@@ -539,6 +544,7 @@ class Labyrinth:
                 self.player.position = coords
 
                 if not self.grid[coords[0]][coords[1]].explored:
+
                     self.grid[coords[0]][coords[1]].set_estado_a("explored")
                     self.grid[coords[0]][coords[1]].explored = True
                     self.grid[coords[0]][coords[1]].peso = min(self.__get_sorrounding_weights__(coords[0], coords[1])) + 1
@@ -551,6 +557,9 @@ class Labyrinth:
             else:
 
                 return True
+
+        
+
 
 
     def __get_sorrounding_weights__(self, coord_y:int, coord_x:int) -> list[int]: # Devuelve una lista de enteros correspondientes a los pesos de las casillas contiguas a una en coordenadas definidas 
@@ -578,7 +587,7 @@ class Labyrinth:
 
         self.grid[self.start.position[0]][self.start.position[1]].peso = 0
         end = False
-
+        self.decision_positions.append((self.start.position[0],self.start.position[1]))
         if self.DEBUG:
 
             count = 0
@@ -589,7 +598,7 @@ class Labyrinth:
             task = progress.add_task("[cyan]Otorgando pesos...", total = total, completed = count)
             
 
-        while not self.grid[self.goal.position[0]][self.goal.position[1]].estado == "explored" and not end:
+        while self.grid[self.goal.position[0]][self.goal.position[1]].peso == -1 and not end:
 
 
             end = self.__advance__()
@@ -623,7 +632,7 @@ class Labyrinth:
                     found = False
                     n = 0
 
-                    while not found:
+                    while not found and n < len(direcciones):
 
                         if ((not ((n == 0 and next_path[0] == self.rows - 1) or 
                             (n == 1 and next_path[0] == 0) or 
@@ -638,7 +647,11 @@ class Labyrinth:
                             self.__actualizar__(next_path[0], next_path[1])
 
                         n += 1
-            
+
+                    if not found:
+
+                        break
+
         else:
 
             print("No existe un camino posible.")    
@@ -708,10 +721,11 @@ class Player:
 if __name__ == "__main__":
     
     # lab = Labyrinth(int(input("Inserte el número de filas que desee: ")),int(input("Inserte el número de columnas que desee: ")),True) # Crea un laberinto
-    lab = Labyrinth(5, 5, False) # Crea un laberinto
+    lab = Labyrinth(50, 150, False) # Crea un laberinto
 
-    lab.set_corner_start() # Define una posición para la casilla de inicio del Start
-    lab.set_corner_goal() # Define una posición para la casilla de meta
+    lab.set_gpt_bricks()
+    lab.set_random_start() # Define una posición para la casilla de inicio del Start
+    lab.set_random_goal() # Define una posición para la casilla de meta
     lab.print_lab()
 
     lab.explore() # Otorga valores de peso a todas las casillas
