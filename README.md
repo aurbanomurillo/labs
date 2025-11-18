@@ -1,7 +1,13 @@
-This repository examines multiple methodologies for addressing the path-finding problem, implementing and comparing various algorithms across a range of scenarios.
+# **Pathfinding Algorithms — Comparative Implementations**
 
-By Antonio Urbano Murillo.
+This repository gathers multiple path-finding algorithms implemented with a consistent object-oriented design.  
+The main objective is to enable a clear comparison of different search strategies under uniform conditions, examining their behaviour across diverse maze configurations.
 
-urbano@alu.comillas.edu
+All mazes are automatically generated using a ChatGPT-based maze generator, ensuring reproducibility and consistent complexity across tests.  
+New algorithms will be progressively added to expand the comparative study.
 
-www.linkedin.com/in/a-urbano
+---
+
+**By:** Antonio Urbano Murillo  
+**Email:** urbano@alu.comillas.edu  
+**LinkedIn:** www.linkedin.com/in/a-urbano

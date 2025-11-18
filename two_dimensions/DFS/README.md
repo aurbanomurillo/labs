@@ -1,7 +1,13 @@
-This module implements a Depth-First Search (DFS) path-finding algorithm. The algorithm explores the maze by recursively expanding the deepest available path before backtracking, effectively generating a full search tree. All mazes used for testing are produced by a ChatGPT-based maze generator. This implementation serves as the first algorithm in a broader project focused on comparing multiple path-finding strategies.
+# **Depth-First Search (DFS) Pathfinding Algorithm**
 
-By Antonio Urbano Murillo.
+This module provides an object-oriented implementation of the **Depth-First Search (DFS)** algorithm for path finding.  
+The search systematically explores a maze by expanding the deepest available branch first and performing controlled backtracking when reaching dead ends. This approach effectively constructs a complete search tree of all reachable states.
 
-urbano@alu.comillas.edu
+All test mazes are generated using a custom ChatGPT-based maze generator for reproducible and consistent evaluation.  
+This implementation serves as one of the baseline algorithms in a broader project aimed at comparing multiple path-finding strategies under uniform conditions.
 
-www.linkedin.com/in/a-urbano
+---
+
+**By:** Antonio Urbano Murillo  
+**Email:** urbano@alu.comillas.edu  
+**LinkedIn:** www.linkedin.com/in/a-urbano
