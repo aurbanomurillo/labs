@@ -814,7 +814,7 @@ class Player:
 if __name__ == "__main__":
 
     # lab = Labyrinth(int(input("Inserte el número de filas que desee: ")),int(input("Inserte el número de columnas que desee: ")),True) # Crea un laberinto
-    lab = Labyrinth(50, 150, True)  # Crea un laberinto
+    lab = Labyrinth(50, 150, True) # Crea un laberinto
 
     lab.set_gpt_bricks()
     lab.set_random_start()  # Define una posición para la casilla de inicio del Start

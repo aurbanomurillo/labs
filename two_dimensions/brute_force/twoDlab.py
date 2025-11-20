@@ -736,11 +736,11 @@ class Meta:
 if __name__ == "__main__":
 
     # lab = Labyrinth(int(input("Inserte el número de filas que desee: ")),int(input("Inserte el número de columnas que desee: ")),True) # Crea un laberinto
-    lab = Labyrinth(50, 150, True)  # Crea un laberinto
+    lab = Labyrinth(50,150,True) # Crea un laberinto
 
-    lab.set_gpt_bricks()  # Coloca 50 muros en el laberinto
-    lab.set_random_player()  # Define una posición para la casilla de inicio del jugador
-    lab.set_random_goal()  # Define una posición para la casilla de meta
-    lab.set_all_weights()  # Otorga valores de peso a todas las casillas
-    lab.set_paths()  # Define el camino óptimo a partir de los valores de peso
-    lab.print_lab()  # Suelta el laberinto por pantalla
+    lab.set_gpt_bricks() # Coloca 50 muros en el laberinto
+    lab.set_random_player() # Define una posición para la casilla de inicio del jugador
+    lab.set_random_goal() # Define una posición para la casilla de meta
+    lab.set_all_weights() # Otorga valores de peso a todas las casillas
+    lab.set_paths() # Define el camino óptimo a partir de los valores de peso
+    lab.print_lab() # Suelta el laberinto por pantalla
