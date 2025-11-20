@@ -1,5 +1,9 @@
 import random
 from rich.progress import Progress
+import sys
+import copy
+
+argumentos = sys.argv
 
 
 class Labyrinth:
@@ -199,7 +203,7 @@ class Labyrinth:
 
         self.goal = Meta(position_y, position_x)
 
-    def print_lab(self, estados: str):  # Saca por pantalla el laberinto
+    def print_lab(self, estados: list[str]):  # Saca por pantalla el laberinto
 
         self.__actualizar_todos__()
         print("________________________")
@@ -642,7 +646,7 @@ class Labyrinth:
 
         return possible
 
-    def brute_force_weights(self):  # Otorga valores de peso a todas las casillas
+    def bfs_weights(self):  # Otorga valores de peso a todas las casillas
 
         count: int = 0
         total_tiles: int = (self.rows * self.columns) - len(self.bricks) - 2
@@ -854,6 +858,21 @@ class Labyrinth:
 
             print("No existe un camino posible.")
 
+    def printResult(self):  # Saca pro pantalla el resultado de la búsqueda
+
+        if self.resuelto:
+
+            self.set_path()  # Define el camino óptimo a partir de los valores de peso
+            self.print_lab(
+                ["path", "brick", "start", "goal", "explored"]
+            )  # Suelta el laberinto por pantalla
+
+        else:
+
+            self.print_lab(
+                ["brick", "start", "goal", "explored"]
+            )  # Suelta el laberinto por pantalla
+
 
 class Casilla:
 
@@ -926,25 +945,37 @@ if __name__ == "__main__":
     lab.set_random_start()  # Define una posición para la casilla de inicio del Start
     lab.set_random_goal()  # Define una posición para la casilla de meta
 
-    choice = input("Indica el método que desee (dfs, bf)")
+    if len(argumentos) == 1:
+
+        choice: str = input("Indica el método que desee (dfs, bfs, both): ")
+
+    else:
+
+        choice: str = argumentos[1]
 
     if choice == "dfs":
 
         lab.dfs_weights()  # Otorga valores de peso según el algoritmo de búsqueda dfs
+        lab.printResult()
 
-    elif choice == "bf":
+    elif choice == "bfs":
 
-        lab.brute_force_weights()  # Otorga valores de peso según el algoritmo de búsqueda dfs
+        lab.bfs_weights()  # Otorga valores de peso según el algoritmo de búsqueda dfs
+        lab.printResult()
 
-    if lab.resuelto:
+    elif choice == "both":
 
-        lab.set_path()  # Define el camino óptimo a partir de los valores de peso
-        lab.print_lab(
-            ["path", "brick", "start", "goal", "explored"]
-        )  # Suelta el laberinto por pantalla
+        lab1 = copy.deepcopy(lab)
+        lab2 = copy.deepcopy(lab)
 
-    else:
+        print(
+            "-------------------------------------------- BFS --------------------------------------------"
+        )
+        lab1.bfs_weights()  # Otorga valores de peso según el algoritmo de búsqueda dfs
+        lab1.printResult()
 
-        lab.print_lab(
-            ["brick", "start", "goal", "explored"]
-        )  # Suelta el laberinto por pantalla
+        print(
+            "-------------------------------------------- DFS --------------------------------------------"
+        )
+        lab2.dfs_weights()
+        lab2.printResult()
