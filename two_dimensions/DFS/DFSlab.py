@@ -4,8 +4,9 @@ from rich.progress import Progress
 
 class Labyrinth:
 
-
-    def __init__(self, rows:int, columns:int, debug:bool = False): # Constructor del objeto laberinto
+    def __init__(
+        self, rows: int, columns: int, debug: bool = False
+    ):  # Constructor del objeto laberinto
 
         self.DEBUG = debug
         self.rows = rows
@@ -19,7 +20,7 @@ class Labyrinth:
             for m in range(columns):
 
                 self.grid[n].append(Casilla(n, m))
-        
+
         self.start = None
         self.goal = None
         self.bricks = []
@@ -27,20 +28,25 @@ class Labyrinth:
         self.explored = []
         self.player = None
         self.decision_positions = []
-    
 
-    def set_start(self,position_y:int, position_x:int): # Agrega una instancia del objeto Start al laberinto siguiendo unos parámetros definidos
+    def set_start(
+        self, position_y: int, position_x: int
+    ):  # Agrega una instancia del objeto Start al laberinto siguiendo unos parámetros definidos
 
         if (position_y, position_x) in self.bricks:
 
-            print(f"La posición ({position_y},{position_x}) está ocupada por un muro. Selecciona otra posición para la casilla de inicio.")
+            print(
+                f"La posición ({position_y},{position_x}) está ocupada por un muro. Selecciona otra posición para la casilla de inicio."
+            )
 
         elif not self.goal == None:
 
             if self.goal.position == (position_y, position_x):
 
-                print(f"La posición ({position_y},{position_x}) está ocupada por la meta. Selecciona otra posición para la casilla de inicio.")
-        
+                print(
+                    f"La posición ({position_y},{position_x}) está ocupada por la meta. Selecciona otra posición para la casilla de inicio."
+                )
+
         else:
 
             self.start = Start(position_y, position_x)
@@ -50,23 +56,27 @@ class Labyrinth:
             self.grid[position_y][position_x].explored = True
             self.grid[position_y][position_x].peso = 0
 
-
-
-    def set_corner_start(self): # Agrega una instancia del objeto Start al laberinto siguiendo unos parámetros definidos
+    def set_corner_start(
+        self,
+    ):  # Agrega una instancia del objeto Start al laberinto siguiendo unos parámetros definidos
 
         position_y = 0
         position_x = 0
 
         if (position_y, position_x) in self.bricks:
 
-            print(f"La posición ({position_y},{position_x}) está ocupada por un muro. Selecciona otra posición para la casilla de inicio.")
-            
+            print(
+                f"La posición ({position_y},{position_x}) está ocupada por un muro. Selecciona otra posición para la casilla de inicio."
+            )
+
         elif not self.goal == None:
 
             if self.goal.position == (position_y, position_x):
 
-                print(f"La posición ({position_y},{position_x}) está ocupada por la meta. Selecciona otra posición para la casilla de inicio.")
-        
+                print(
+                    f"La posición ({position_y},{position_x}) está ocupada por la meta. Selecciona otra posición para la casilla de inicio."
+                )
+
         else:
 
             self.start = Start(position_y, position_x)
@@ -76,15 +86,19 @@ class Labyrinth:
             self.grid[position_y][position_x].explored = True
             self.grid[position_y][position_x].peso = 0
 
-
-    def set_random_start(self): # Agrega una instancia del objeto Start al laberinto en una posición aleatoria
+    def set_random_start(
+        self,
+    ):  # Agrega una instancia del objeto Start al laberinto en una posición aleatoria
 
         if not self.goal == None:
 
             position_y = random.choice(range(self.rows))
             position_x = random.choice(range(self.columns))
 
-            while (position_y, position_x) in self.bricks or (position_y, position_x) == self.goal.position:
+            while (position_y, position_x) in self.bricks or (
+                position_y,
+                position_x,
+            ) == self.goal.position:
 
                 position_y = random.choice(range(self.rows))
                 position_x = random.choice(range(self.columns))
@@ -98,7 +112,7 @@ class Labyrinth:
 
                 position_y = random.choice(range(self.rows))
                 position_x = random.choice(range(self.columns))
-        
+
         self.start = Start(position_y, position_x)
         self.player = Player(position_y, position_x)
 
@@ -106,52 +120,66 @@ class Labyrinth:
         self.grid[position_y][position_x].explored = True
         self.grid[position_y][position_x].peso = 0
 
-
-    def set_goal(self, position_y:int, position_x:int): # Agrega una instancia del objeto Meta al laberinto siguiendo unos parámetros definidos
+    def set_goal(
+        self, position_y: int, position_x: int
+    ):  # Agrega una instancia del objeto Meta al laberinto siguiendo unos parámetros definidos
 
         if (position_y, position_x) in self.bricks:
 
-            print(f"La posición ({position_y},{position_x}) está ocupada por un muro. Selecciona otra posición para la casilla de meta.")
+            print(
+                f"La posición ({position_y},{position_x}) está ocupada por un muro. Selecciona otra posición para la casilla de meta."
+            )
 
         elif not self.goal == None:
 
-            if self.goal.position == (position_y,position_x):
+            if self.goal.position == (position_y, position_x):
 
-                print(f"La posición ({position_y},{position_x}) está ocupada por la meta. Selecciona otra posición para la casilla de inicio.")
-        
+                print(
+                    f"La posición ({position_y},{position_x}) está ocupada por la meta. Selecciona otra posición para la casilla de inicio."
+                )
+
         else:
 
             self.goal = Meta(position_y, position_x)
-    
 
-    def set_corner_goal(self): # Agrega una instancia del objeto Meta al laberinto en la esquina inferior derecha
+    def set_corner_goal(
+        self,
+    ):  # Agrega una instancia del objeto Meta al laberinto en la esquina inferior derecha
 
         position_y = self.rows - 1
         position_x = self.columns - 1
 
         if (position_y, position_x) in self.bricks:
 
-            print(f"La posición ({position_y},{position_x}) está ocupada por un muro. Selecciona otra posición para la casilla de meta.")
+            print(
+                f"La posición ({position_y},{position_x}) está ocupada por un muro. Selecciona otra posición para la casilla de meta."
+            )
 
         elif not self.goal == None:
 
             if self.goal.position == (position_y, position_x):
 
-                print(f"La posición ({position_y},{position_x}) está ocupada por la meta. Selecciona otra posición para la casilla de inicio.")
+                print(
+                    f"La posición ({position_y},{position_x}) está ocupada por la meta. Selecciona otra posición para la casilla de inicio."
+                )
 
         else:
 
             self.goal = Meta(position_y, position_x)
 
-
-    def set_random_goal(self): # Agrega una instancia del objeto Meta al laberinto en una posición aleatoria
+    def set_random_goal(
+        self,
+    ):  # Agrega una instancia del objeto Meta al laberinto en una posición aleatoria
 
         if not self.start == None:
 
             position_y = random.choice(range(self.rows))
             position_x = random.choice(range(self.columns))
 
-            while (position_y,position_x) in self.bricks or (position_y, position_x) == self.start.position:
+            while (position_y, position_x) in self.bricks or (
+                position_y,
+                position_x,
+            ) == self.start.position:
 
                 position_y = random.choice(range(self.rows))
                 position_x = random.choice(range(self.columns))
@@ -161,15 +189,14 @@ class Labyrinth:
             position_y = random.choice(range(self.rows))
             position_x = random.choice(range(self.columns))
 
-            while (position_y,position_x) in self.bricks:
+            while (position_y, position_x) in self.bricks:
 
                 position_y = random.choice(range(self.rows))
                 position_x = random.choice(range(self.columns))
-        
+
         self.goal = Meta(position_y, position_x)
 
-
-    def print_lab(self, estados:str): # Saca por pantalla el laberinto
+    def print_lab(self, estados: str):  # Saca por pantalla el laberinto
 
         self.__actualizar_todos__()
         print("________________________")
@@ -180,18 +207,21 @@ class Labyrinth:
 
                 if self.grid[n][m].estado in estados:
 
-                    print(self.grid[n][m].symbol, end = "")
+                    print(self.grid[n][m].symbol, end="")
 
                 else:
 
-                    print("⬜", end = "")
+                    print("⬜", end="")
 
             print("")
 
         print("________________________")
-        
 
-    def __get_lab_weights__(self) -> list[list[int]]: # Devuelve una lista de dos dimensiones con los pesos de cada casilla
+    def __get_lab_weights__(
+        self,
+    ) -> list[
+        list[int]
+    ]:  # Devuelve una lista de dos dimensiones con los pesos de cada casilla
 
         weights = []
 
@@ -206,9 +236,10 @@ class Labyrinth:
             weights.append(fila)
 
         return weights
-    
 
-    def print_lab_weights(self): # Saca por pantalla los valores de peso de cada casilla
+    def print_lab_weights(
+        self,
+    ):  # Saca por pantalla los valores de peso de cada casilla
 
         weights = self.__get_lab_weights__()
         print("________________________")
@@ -227,9 +258,12 @@ class Labyrinth:
             print("")
 
         print("________________________")
-    
 
-    def __get_gpt_bricks__(self) -> list[tuple[int, int]]: # Devuelve la lista de coordenadas de los muros propuestos por gpt
+    def __get_gpt_bricks__(
+        self,
+    ) -> list[
+        tuple[int, int]
+    ]:  # Devuelve la lista de coordenadas de los muros propuestos por gpt
 
         rows = self.rows + 1
         cols = self.columns + 1
@@ -256,12 +290,12 @@ class Labyrinth:
                     neighbors.append((ny, nx, dy // 2, dx // 2))
 
             if neighbors:
-                
+
                 ny, nx, mid_dy, mid_dx = random.choice(neighbors)
                 maze[y + mid_dy][x + mid_dx] = False
                 maze[ny][nx] = False
                 stack.append((ny, nx))
-                
+
             else:
 
                 stack.pop()
@@ -269,8 +303,14 @@ class Labyrinth:
         # Asegurar que Start y meta no estén bloqueados
         ppos = getattr(self, "start", None)
         gpos = getattr(self, "goal", None)
-        ppos = tuple(ppos.position) if ppos and getattr(ppos, "position", None) else (0, 0)
-        gpos = tuple(gpos.position) if gpos and getattr(gpos, "position", None) else (rows - 1, cols - 1)
+        ppos = (
+            tuple(ppos.position) if ppos and getattr(ppos, "position", None) else (0, 0)
+        )
+        gpos = (
+            tuple(gpos.position)
+            if gpos and getattr(gpos, "position", None)
+            else (rows - 1, cols - 1)
+        )
         maze[ppos[0]][ppos[1]] = False
         maze[gpos[0]][gpos[1]] = False
 
@@ -289,8 +329,11 @@ class Labyrinth:
 
         return bricks
 
-
-    def __get_random_bricks__(self, amount_of_bricks:int) -> list[tuple[int,int]]: # Devuelve una lista de tuplas con las coordenadas de los nuevos muros
+    def __get_random_bricks__(
+        self, amount_of_bricks: int
+    ) -> list[
+        tuple[int, int]
+    ]:  # Devuelve una lista de tuplas con las coordenadas de los nuevos muros
 
         bricks = []
 
@@ -301,7 +344,11 @@ class Labyrinth:
                 position_y = random.choice(range(self.rows))
                 position_x = random.choice(range(self.columns))
 
-                while (position_y, position_x) == self.start.position or (position_y, position_x) == self.goal.position or (position_y, position_x) in bricks:
+                while (
+                    (position_y, position_x) == self.start.position
+                    or (position_y, position_x) == self.goal.position
+                    or (position_y, position_x) in bricks
+                ):
 
                     position_y = random.choice(range(self.rows))
                     position_x = random.choice(range(self.columns))
@@ -315,13 +362,16 @@ class Labyrinth:
                 position_y = random.choice(range(self.rows))
                 position_x = random.choice(range(self.columns))
 
-                while (position_y, position_x) == self.start.position or (position_y, position_x) in bricks:
+                while (position_y, position_x) == self.start.position or (
+                    position_y,
+                    position_x,
+                ) in bricks:
 
                     position_y = random.choice(range(self.rows))
                     position_x = random.choice(range(self.columns))
 
                 bricks.append((position_y, position_x))
-        
+
         elif not self.goal == None:
 
             for _ in range(amount_of_bricks):
@@ -329,13 +379,16 @@ class Labyrinth:
                 position_y = random.choice(range(self.rows))
                 position_x = random.choice(range(self.columns))
 
-                while (position_y, position_x) == self.goal.position or (position_y, position_x) in bricks:
+                while (position_y, position_x) == self.goal.position or (
+                    position_y,
+                    position_x,
+                ) in bricks:
 
                     position_y = random.choice(range(self.rows))
                     position_x = random.choice(range(self.columns))
 
                 bricks.append((position_y, position_x))
-        
+
         else:
 
             for _ in range(amount_of_bricks):
@@ -352,21 +405,23 @@ class Labyrinth:
 
         return bricks
 
-
-    def set_random_bricks(self, amount_of_bricks:int): # Incorpora una cantidad definida de muros en el laberinto aleatoriamente
+    def set_random_bricks(
+        self, amount_of_bricks: int
+    ):  # Incorpora una cantidad definida de muros en el laberinto aleatoriamente
 
         self.bricks = self.__get_random_bricks__(amount_of_bricks)
         self.__actualizar_bricks__()
-    
 
-    def set_gpt_bricks(self): # Incorpora una cantidad definida de muros en el laberinto aleatoriamente
+    def set_gpt_bricks(
+        self,
+    ):  # Incorpora una cantidad definida de muros en el laberinto aleatoriamente
 
         bricks = []
 
         if not self.start == None and not self.goal == None:
 
             bricks = self.__get_gpt_bricks__()
-            
+
             while self.start.position in bricks or self.goal.position in bricks:
 
                 bricks = self.__get_gpt_bricks__()
@@ -374,7 +429,7 @@ class Labyrinth:
         elif not self.start == None:
 
             bricks = self.__get_gpt_bricks__()
-            
+
             while self.start.position in bricks:
 
                 bricks = self.__get_gpt_bricks__()
@@ -382,7 +437,7 @@ class Labyrinth:
         elif not self.goal == None:
 
             bricks = self.__get_gpt_bricks__()
-            
+
             while self.goal.position in bricks:
 
                 bricks = self.__get_gpt_bricks__()
@@ -390,14 +445,15 @@ class Labyrinth:
         else:
 
             bricks = self.__get_gpt_bricks__()
-        
+
         self.bricks = bricks
         self.__actualizar_bricks__()
 
+    def set_corner_bricks(
+        self,
+    ):  # Incorpora únicamente dos muros que cierran la esquina inferior izquierda
 
-    def set_corner_bricks(self): # Incorpora únicamente dos muros que cierran la esquina inferior izquierda
-        
-        bricks = [(len(self.grid)-2, 0), (len(self.grid)-1, 1)]
+        bricks = [(len(self.grid) - 2, 0), (len(self.grid) - 1, 1)]
 
         if not self.start == None and self.start.position in bricks:
 
@@ -412,8 +468,7 @@ class Labyrinth:
             self.bricks = bricks
             self.__actualizar_bricks__()
 
-
-    def __actualizar_bricks__(self): # Actualiza todas las casillas de muros 
+    def __actualizar_bricks__(self):  # Actualiza todas las casillas de muros
 
         total_muros = len(self.bricks)
         progreso_actual = 0
@@ -422,7 +477,9 @@ class Labyrinth:
 
             progress = Progress()
             progress.start()
-            task = progress.add_task("[magenta]Actualizando muros...", total = total_muros)
+            task = progress.add_task(
+                "[magenta]Actualizando muros...", total=total_muros
+            )
 
         for coords in self.bricks:
 
@@ -431,44 +488,51 @@ class Labyrinth:
             if self.DEBUG:
 
                 progreso_actual += 1
-                progress.update(task, completed = progreso_actual)
+                progress.update(task, completed=progreso_actual)
 
         if self.DEBUG:
 
             progress.stop()
 
-
-    def delete_bricks(self): # Elimina todos los muros
+    def delete_bricks(self):  # Elimina todos los muros
 
         self.bricks.clear()
         self.__actualizar_todos__()
 
-
-    def __actualizar__(self, coord_y:int, coord_x:int): # Actualiza una casilla sabiendo sus coordenadas
+    def __actualizar__(
+        self, coord_y: int, coord_x: int
+    ):  # Actualiza una casilla sabiendo sus coordenadas
 
         if not self.start == None:
 
             if (coord_y, coord_x) == self.start.position:
 
                 self.grid[coord_y][coord_x].set_estado_a("start")
-                self.grid[coord_y][coord_x].symbol = self.grid[coord_y][coord_x].symbols["start"]
-        
+                self.grid[coord_y][coord_x].symbol = self.grid[coord_y][
+                    coord_x
+                ].symbols["start"]
+
         if not self.goal == None:
 
             if (coord_y, coord_x) == self.goal.position:
 
                 self.grid[coord_y][coord_x].set_estado_a("goal")
-                self.grid[coord_y][coord_x].symbol =self.grid[coord_y][coord_x].symbols["goal"]
+                self.grid[coord_y][coord_x].symbol = self.grid[coord_y][
+                    coord_x
+                ].symbols["goal"]
 
         if self.grid[coord_y][coord_x].estado == "path":
 
-            self.grid[coord_y][coord_x].symbol = self.grid[coord_y][coord_x].symbols["path"]     
+            self.grid[coord_y][coord_x].symbol = self.grid[coord_y][coord_x].symbols[
+                "path"
+            ]
 
         if (coord_y, coord_x) in self.bricks:
 
             self.grid[coord_y][coord_x].set_estado_a("brick")
-            self.grid[coord_y][coord_x].symbol = self.grid[coord_y][coord_x].symbols["brick"]
-
+            self.grid[coord_y][coord_x].symbol = self.grid[coord_y][coord_x].symbols[
+                "brick"
+            ]
 
     def __actualizar_todos__(self):  # Actualiza todas las casillas según su estado
 
@@ -479,7 +543,9 @@ class Labyrinth:
 
             progress = Progress()
             progress.start()
-            task = progress.add_task("[magenta]Actualizando casillas...", total = total_casillas)
+            task = progress.add_task(
+                "[magenta]Actualizando casillas...", total=total_casillas
+            )
 
         for n in range(len(self.grid)):
 
@@ -490,12 +556,11 @@ class Labyrinth:
                 if self.DEBUG:
 
                     progreso_actual += 1
-                    progress.update(task, completed = progreso_actual)
+                    progress.update(task, completed=progreso_actual)
 
         if self.DEBUG:
 
             progress.stop()
-
 
     def __tiles_player_can_advance__(self) -> list[tuple[int, int]]:
 
@@ -507,24 +572,25 @@ class Labyrinth:
             coord_x = self.player.position[1] + direction[1]
 
             # límites correctos
-            if ((0 <= coord_y < self.rows and 0 <= coord_x < self.columns) and
-                (self.grid[coord_y][coord_x].peso == -1) and
-                (not (coord_y, coord_x) in self.bricks) and
-                (not self.grid[coord_y][coord_x].estado == "explored")):
+            if (
+                (0 <= coord_y < self.rows and 0 <= coord_x < self.columns)
+                and (self.grid[coord_y][coord_x].peso == -1)
+                and (not (coord_y, coord_x) in self.bricks)
+                and (not self.grid[coord_y][coord_x].estado == "explored")
+            ):
 
                 possible.append((coord_y, coord_x))
 
         return possible
 
-    
     def __advance__(self) -> bool:
-        
+
         possible = self.__tiles_player_can_advance__()
 
         if len(possible) > 0:
-            
+
             if len(possible) > 1:
-                
+
                 if type(self.player.position) == list:
 
                     current_pos = self.player.position
@@ -541,15 +607,17 @@ class Labyrinth:
             self.grid[new_coords[0]][new_coords[1]].set_estado_a("explored")
             self.grid[new_coords[0]][new_coords[1]].explored = True
 
-            self.grid[new_coords[0]][new_coords[1]].peso = min(self.__get_sorrounding_weights__(new_coords[0], new_coords[1])) + 1
+            self.grid[new_coords[0]][new_coords[1]].peso = (
+                min(self.__get_sorrounding_weights__(new_coords[0], new_coords[1])) + 1
+            )
 
-            self.explored.append((new_coords[0],new_coords[1]))
-            self.__actualizar__(new_coords[0],new_coords[1])
+            self.explored.append((new_coords[0], new_coords[1]))
+            self.__actualizar__(new_coords[0], new_coords[1])
 
             return False
-        
+
         else:
-            
+
             if not len(self.decision_positions) == 0:
 
                 coords = self.decision_positions.pop()
@@ -559,18 +627,23 @@ class Labyrinth:
 
                     self.grid[coords[0]][coords[1]].set_estado_a("explored")
                     self.grid[coords[0]][coords[1]].explored = True
-                    self.grid[coords[0]][coords[1]].peso = min(self.__get_sorrounding_weights__(coords[0], coords[1])) + 1
+                    self.grid[coords[0]][coords[1]].peso = (
+                        min(self.__get_sorrounding_weights__(coords[0], coords[1])) + 1
+                    )
                     self.explored.append(coords)
                     self.__actualizar__(coords[0], coords[1])
 
                 return False
-            
+
             else:
 
                 return True
 
-
-    def __get_sorrounding_weights__(self, coord_y:int, coord_x:int) -> list[int]: # Devuelve una lista de enteros correspondientes a los pesos de las casillas contiguas a una en coordenadas definidas 
+    def __get_sorrounding_weights__(
+        self, coord_y: int, coord_x: int
+    ) -> list[
+        int
+    ]:  # Devuelve una lista de enteros correspondientes a los pesos de las casillas contiguas a una en coordenadas definidas
 
         pesos = []
         directions = [(1, 0), (0, 1), (-1, 0), (0, -1)]
@@ -579,7 +652,7 @@ class Labyrinth:
 
             coord_y_prime = coord_y + directions[n][0]
             coord_x_prime = coord_x + directions[n][1]
-            
+
             if 0 <= coord_y_prime < self.rows and 0 <= coord_x_prime < self.columns:
 
                 if not self.grid[coord_y_prime][coord_x_prime].peso == -1:
@@ -588,14 +661,13 @@ class Labyrinth:
 
         return pesos
 
-
     def explore(self):
-        
+
         self.decision_positions = []
 
         self.grid[self.start.position[0]][self.start.position[1]].peso = 0
         end = False
-        self.decision_positions.append((self.start.position[0],self.start.position[1]))
+        self.decision_positions.append((self.start.position[0], self.start.position[1]))
         if self.DEBUG:
 
             count = 0
@@ -603,17 +675,20 @@ class Labyrinth:
 
             progress = Progress()
             progress.start()
-            task = progress.add_task("[cyan]Explorando...", total = total, completed = count)
-            
+            task = progress.add_task(
+                "[cyan]Explorando...", total=total, completed=count
+            )
 
-        while self.grid[self.goal.position[0]][self.goal.position[1]].peso == -1 and not end:
-
+        while (
+            self.grid[self.goal.position[0]][self.goal.position[1]].peso == -1
+            and not end
+        ):
 
             end = self.__advance__()
 
             if self.DEBUG:
 
-                progress.update(task, completed = count)  # Actualiza la barra
+                progress.update(task, completed=count)  # Actualiza la barra
 
                 count = len(self.explored)
 
@@ -622,16 +697,19 @@ class Labyrinth:
             progress.stop()
 
             print(f"Se han otorgado los pesos a {count} casillas del total {total}.")
-            
 
-    def set_path(self): # Define las casillas conforman el trayecto más corto entre la posición del jugador y la posición de meta
+    def set_path(
+        self,
+    ):  # Define las casillas conforman el trayecto más corto entre la posición del jugador y la posición de meta
 
         if not self.grid[self.goal.position[0]][self.goal.position[1]].peso == -1:
-        
-            directions = [(1, 0), (0, 1), (-1, 0), (0, -1)]
-            next_path = [self.goal.position[0],self.goal.position[1]]
 
-            for _ in range(self.grid[self.goal.position[0]][self.goal.position[1]].peso + 1):
+            directions = [(1, 0), (0, 1), (-1, 0), (0, -1)]
+            next_path = [self.goal.position[0], self.goal.position[1]]
+
+            for _ in range(
+                self.grid[self.goal.position[0]][self.goal.position[1]].peso + 1
+            ):
 
                 self.grid[next_path[0]][next_path[1]].set_estado_a("path")
                 end = False
@@ -643,13 +721,24 @@ class Labyrinth:
 
                     while not found and n < len(directions):
 
-                        if ((not ((n == 0 and next_path[0] == self.rows - 1) or 
-                            (n == 1 and next_path[1] == self.columns -1) or 
-                            (n == 2 and next_path[0] == 0) or 
-                            (n == 3 and next_path[1] == 0))) and 
-                            (self.grid[next_path[0] + directions[n][0]][next_path[1] + directions[n][1]].peso == self.grid[next_path[0]][next_path[1]].peso - 1)):
-                            
-                            next_path = [next_path[0] + directions[n][0],next_path[1] + directions[n][1]]
+                        if (
+                            not (
+                                (n == 0 and next_path[0] == self.rows - 1)
+                                or (n == 1 and next_path[1] == self.columns - 1)
+                                or (n == 2 and next_path[0] == 0)
+                                or (n == 3 and next_path[1] == 0)
+                            )
+                        ) and (
+                            self.grid[next_path[0] + directions[n][0]][
+                                next_path[1] + directions[n][1]
+                            ].peso
+                            == self.grid[next_path[0]][next_path[1]].peso - 1
+                        ):
+
+                            next_path = [
+                                next_path[0] + directions[n][0],
+                                next_path[1] + directions[n][1],
+                            ]
                             self.grid[next_path[0]][next_path[1]].set_estado_a("path")
                             found = True
                             self.__actualizar__(next_path[0], next_path[1])
@@ -662,79 +751,77 @@ class Labyrinth:
 
         else:
 
-            print("No existe un camino posible.")    
-
+            print("No existe un camino posible.")
 
 
 class Casilla:
-    
 
-    def __init__(self, position_y:int, position_x:int, estado = "blank"): # Constructor del objeto Casilla
+    def __init__(
+        self, position_y: int, position_x: int, estado="blank"
+    ):  # Constructor del objeto Casilla
 
-        self.symbols={  "start":        "🟦",
-                        "goal":         "🟩",
-                        "brick":        "⬛",
-                        "blank":        "⬜",
-                        "path":         "🟥",
-                        "explored":     "🟧"    }
-        
-        self.position=[position_y, position_x]
+        self.symbols = {
+            "start": "🟦",
+            "goal": "🟩",
+            "brick": "⬛",
+            "blank": "⬜",
+            "path": "🟥",
+            "explored": "🟧",
+        }
+
+        self.position = [position_y, position_x]
         self.set_estado_a("blank")
         self.set_estado_a(estado)
         self.peso = -1
         self.symbol = self.symbols[estado]
         self.explored = False
 
+    def set_estado_a(
+        self, new_estado: str
+    ):  # Define el estado de la casilla, ya sea la casilla de inicio del Start, la casilla de meta, un muro, una casilla vacía, o una casilla que forma parte del camino óptimo
 
-    def set_estado_a(self, new_estado:str): # Define el estado de la casilla, ya sea la casilla de inicio del Start, la casilla de meta, un muro, una casilla vacía, o una casilla que forma parte del camino óptimo
-        
         if new_estado in self.symbols.keys():
 
             self.estado = new_estado
             self.symbol = self.symbols[new_estado]
-            
+
         else:
 
             print(f"El estado {new_estado} no existe.")
 
 
-
 class Start:
 
-
-    def __init__(self, position_y = 0, position_x = 0): # Contructor de la clase Start
+    def __init__(self, position_y=0, position_x=0):  # Contructor de la clase Start
 
         self.position = (position_y, position_x)
-
 
 
 class Meta:
 
-
-    def __init__(self, position_y = 0, position_x = 0): # Constructor de la clase Meta
+    def __init__(self, position_y=0, position_x=0):  # Constructor de la clase Meta
 
         self.position = (position_y, position_x)
 
 
-
 class Player:
 
-
-    def __init__(self, position_y, position_x): # Constructor de la clase Meta
+    def __init__(self, position_y, position_x):  # Constructor de la clase Meta
 
         self.position = [position_y, position_x]
-
 
 
 if __name__ == "__main__":
 
     # lab = Labyrinth(int(input("Inserte el número de filas que desee: ")),int(input("Inserte el número de columnas que desee: ")),True) # Crea un laberinto
-    lab = Labyrinth(30, 90, True) # Crea un laberinto
+    lab = Labyrinth(30, 90, True)  # Crea un laberinto
 
     lab.set_gpt_bricks()
-    lab.set_random_start() # Define una posición para la casilla de inicio del Start
-    lab.set_random_goal() # Define una posición para la casilla de meta
+    lab.set_random_start()  # Define una posición para la casilla de inicio del Start
+    lab.set_random_goal()  # Define una posición para la casilla de meta
 
-    lab.explore() # Otorga valores de peso a todas las casillas
-    lab.set_path() # Define el camino óptimo a partir de los valores de peso
-    lab.print_lab(["path", "brick", "start", "goal", "explored"]) # Suelta el laberinto por pantalla
+    lab.explore()  # Otorga valores de peso a todas las casillas
+    lab.set_path()  # Define el camino óptimo a partir de los valores de peso
+    lab.print_lab(
+        ["path", "brick", "start", "goal", "explored"]
+    )  # Suelta el laberinto por pantalla
