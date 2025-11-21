@@ -1008,13 +1008,14 @@ if __name__ == "__main__":
 
             lab1 = copy.deepcopy(lab)
             lab2 = copy.deepcopy(lab)
+
             print(
                 "-------------------------------------------- BFS --------------------------------------------"
             )
             start = time.perf_counter()
-            lab1.bfs_weights()  # Otorga valores de peso según el algoritmo de búsqueda dfs
+            lab1.bfs_weights()
             lab1.printResult()
-            dfs_times.append(time.perf_counter() - start)
+            bfs_times.append(time.perf_counter() - start)
 
             print(
                 "-------------------------------------------- DFS --------------------------------------------"
@@ -1022,13 +1023,17 @@ if __name__ == "__main__":
             start = time.perf_counter()
             lab2.dfs_weights()
             lab2.printResult()
-            bfs_times.append(time.perf_counter() - start)
+            dfs_times.append(time.perf_counter() - start)
 
-        all_times = dfs_times + bfs_times
-
+        # Histograma comparativo
         plt.figure()
-        plt.hist(all_times, bins=15)
+
+        plt.hist(dfs_times, bins=15, alpha=0.5, label="DFS Times")
+        plt.hist(bfs_times, bins=15, alpha=0.5, label="BFS Times")
+
         plt.xlabel("Time (seconds)")
         plt.ylabel("Frequency")
         plt.title("Histogram of Algorithm Execution Times")
+        plt.legend()
+
         plt.show()
