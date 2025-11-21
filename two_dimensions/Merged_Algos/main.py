@@ -2,6 +2,8 @@ import random
 from rich.progress import Progress
 import sys
 import copy
+import time
+import matplotlib.pyplot as plt
 
 argumentos = sys.argv
 
@@ -939,12 +941,6 @@ class Player:
 
 if __name__ == "__main__":
 
-    lab: Labyrinth = Labyrinth(50, 150, True)  # Crea un laberinto
-
-    lab.set_gpt_bricks()
-    lab.set_random_start()  # Define una posición para la casilla de inicio del Start
-    lab.set_random_goal()  # Define una posición para la casilla de meta
-
     if len(argumentos) == 1:
 
         choice: str = input("Indica el método que desee (dfs, bfs, both): ")
@@ -954,16 +950,33 @@ if __name__ == "__main__":
         choice: str = argumentos[1]
 
     if choice == "dfs":
+        lab: Labyrinth = Labyrinth(50, 150, True)  # Crea un laberinto
+
+        lab.set_gpt_bricks()
+        lab.set_random_start()  # Define una posición para la casilla de inicio del Start
+        lab.set_random_goal()  # Define una posición para la casilla de meta
 
         lab.dfs_weights()  # Otorga valores de peso según el algoritmo de búsqueda dfs
         lab.printResult()
 
     elif choice == "bfs":
 
+        lab: Labyrinth = Labyrinth(50, 150, True)  # Crea un laberinto
+
+        lab.set_gpt_bricks()
+        lab.set_random_start()  # Define una posición para la casilla de inicio del Start
+        lab.set_random_goal()  # Define una posición para la casilla de meta
+
         lab.bfs_weights()  # Otorga valores de peso según el algoritmo de búsqueda dfs
         lab.printResult()
 
     elif choice == "both":
+
+        lab: Labyrinth = Labyrinth(50, 150, True)  # Crea un laberinto
+
+        lab.set_gpt_bricks()
+        lab.set_random_start()  # Define una posición para la casilla de inicio del Start
+        lab.set_random_goal()  # Define una posición para la casilla de meta
 
         lab1 = copy.deepcopy(lab)
         lab2 = copy.deepcopy(lab)
@@ -979,3 +992,43 @@ if __name__ == "__main__":
         )
         lab2.dfs_weights()
         lab2.printResult()
+
+    elif choice == "compare":
+
+        dfs_times = []
+        bfs_times = []
+
+        for _ in range(50):
+
+            lab: Labyrinth = Labyrinth(50, 150, True)  # Crea un laberinto
+
+            lab.set_gpt_bricks()
+            lab.set_random_start()  # Define una posición para la casilla de inicio del Start
+            lab.set_random_goal()  # Define una posición para la casilla de meta
+
+            lab1 = copy.deepcopy(lab)
+            lab2 = copy.deepcopy(lab)
+            print(
+                "-------------------------------------------- BFS --------------------------------------------"
+            )
+            start = time.perf_counter()
+            lab1.bfs_weights()  # Otorga valores de peso según el algoritmo de búsqueda dfs
+            lab1.printResult()
+            dfs_times.append(time.perf_counter() - start)
+
+            print(
+                "-------------------------------------------- DFS --------------------------------------------"
+            )
+            start = time.perf_counter()
+            lab2.dfs_weights()
+            lab2.printResult()
+            bfs_times.append(time.perf_counter() - start)
+
+        all_times = dfs_times + bfs_times
+
+        plt.figure()
+        plt.hist(all_times, bins=15)
+        plt.xlabel("Time (seconds)")
+        plt.ylabel("Frequency")
+        plt.title("Histogram of Algorithm Execution Times")
+        plt.show()
