@@ -733,9 +733,8 @@ class Meta:
         self.position = (position_y, position_x)
 
 
-if __name__ == "__main__":
+def main():
 
-    # lab = Labyrinth(int(input("Inserte el número de filas que desee: ")),int(input("Inserte el número de columnas que desee: ")),True) # Crea un laberinto
     lab = Labyrinth(100, 300, True)  # Crea un laberinto
 
     lab.set_gpt_bricks()  # Coloca 50 muros en el laberinto
@@ -744,3 +743,7 @@ if __name__ == "__main__":
     lab.set_all_weights()  # Otorga valores de peso a todas las casillas
     lab.set_paths()  # Define el camino óptimo a partir de los valores de peso
     lab.print_lab()  # Suelta el laberinto por pantalla
+
+
+if __name__ == "__main__":
+    main()
