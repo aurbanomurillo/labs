@@ -1,0 +1,12 @@
+[project]
+name = "pathfinding-labs"
+version = "0.1.0"
+description = "Comparative implementations of pathfinding algorithms over 2D mazes."
+authors = [{ name = "Antonio Urbano Murillo", email = "urbano@alu.comillas.edu" }]
+readme = "README.md"
+requires-python = ">=3.10"
+license = { file = "LICENSE" }
+
+[tool.black]
+line-length = 88
+target-version = ["py310"]
